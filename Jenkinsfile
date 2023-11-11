@@ -1,13 +1,14 @@
 pipeline {
-    environment {
-      GO111MODULE = 'on'
-      registry = "threehook/go-merkle"
-      registryCredential = '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'
-      dockerImage = ''
-    }
     agent any
     tools {
         go 'go-1.21'
+    }
+    environment {
+      GO111MODULE = 'on'
+      ghcr-credential = credentials('ghcr-pat')
+      registry = "threehook/go-merkle"
+      registryCredential = 'ghcr-credential'
+      dockerImage = ''
     }
     stages {
         stage('Building app') {
@@ -17,11 +18,14 @@ pipeline {
         }
         // don't forget to include a stage for unit testing right here
         stage('Building image') {
-          steps{
+         steps{
             script {
-              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
-          }
-        }
+            script {
+                docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+            }
+         }
     }
 }
