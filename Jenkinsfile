@@ -1,8 +1,8 @@
 pipeline {
     environment {
       GO111MODULE = 'on'
-      registry = "gustavoapolinario/docker-test"
-      registryCredential = 'dockerhub'
+      registry = "threehook/go-merkle"
+      registryCredential = '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'
       dockerImage = ''
     }
     agent any
