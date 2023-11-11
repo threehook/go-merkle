@@ -5,9 +5,9 @@ pipeline {
     }
     environment {
       GO111MODULE = 'on'
-      ghcr-credential = credentials('ghcr-pat')
+      ghcrCredential = credentials('ghcr-pat')
       registry = 'threehook/go-merkle'
-      registryCredential = '${ghcr-credential}'
+      //registryCredential = 'ghcrCredential'
       dockerImage = ''
     }
     stages {
@@ -27,7 +27,7 @@ pipeline {
         stage('Deploying image') {
             steps {
                 script {
-                    docker.withRegistry( 'https://ghcr.io', registryCredential ) {
+                    docker.withRegistry( 'https://ghcr.io', ghcrCredential ) {
                         dockerImage.push()
                     }
                 }
