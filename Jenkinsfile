@@ -6,8 +6,8 @@ pipeline {
     environment {
       GO111MODULE = 'on'
       ghcr-credential = credentials('ghcr-pat')
-      registry = "threehook/go-merkle"
-      registryCredential = 'ghcr-credential'
+      registry = 'threehook/go-merkle'
+      registryCredential = '${ghcr-credential}'
       dockerImage = ''
     }
     stages {
