@@ -15,7 +15,7 @@ pipeline {
                 sh 'go build'
             }
         }
-        // don't forget to include a stage for unit testing here
+        // don't forget to include a stage for unit testing right here
         stage('Building image') {
           steps{
             script {
