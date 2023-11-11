@@ -19,8 +19,6 @@ pipeline {
         // don't forget to include a stage for unit testing right here
         stage('Building image') {
             steps {
-                sh 'groupadd docker'
-                sh 'usermod -aG docker $USER'
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
