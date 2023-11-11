@@ -18,17 +18,18 @@ pipeline {
         }
         // don't forget to include a stage for unit testing right here
         stage('Building image') {
-            steps{
+            steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
             }
         }
         stage('Deploying image') {
-         steps{
-            script {
-                docker.withRegistry( 'https://ghcr.io', registryCredential ) {
-                    dockerImage.push()
+            steps {
+                script {
+                    docker.withRegistry( 'https://ghcr.io', registryCredential ) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
