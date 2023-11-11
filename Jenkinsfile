@@ -11,12 +11,12 @@ pipeline {
       dockerImage = ''
     }
     stages {
-        environment {
-            LC_ALL = 'en_US.UTF-8'
-            LANG    = 'en_US.UTF-8'
-            LANGUAGE = 'en_US.UTF-8'
-        }
         stage('Building app') {
+            environment {
+                LC_ALL = 'en_US.UTF-8'
+                LANG    = 'en_US.UTF-8'
+                LANGUAGE = 'en_US.UTF-8'
+            }
             steps {
                 sh 'go build'
             }
