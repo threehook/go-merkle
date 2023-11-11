@@ -26,7 +26,8 @@ pipeline {
         stage('Deploying image') {
             script {
                 docker.withRegistry( 'https://ghcr.io', registryCredential ) {
-                dockerImage.push()
+                    dockerImage.push()
+                }
             }
         }
     }
