@@ -22,10 +22,12 @@ pipeline {
             script {
                 dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
+         }
+        stage('Deploying image') {
             script {
-                docker.withRegistry( '', registryCredential ) {
+                docker.withRegistry( 'https://ghcr.io', registryCredential ) {
                 dockerImage.push()
             }
-         }
+        }
     }
 }
