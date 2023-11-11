@@ -3,7 +3,7 @@ package merkle
 import (
 	"fmt"
 	"github.com/stretchr/testify/suite"
-	"github.com/threehook/go-merkle/algorithms"
+	"github.com/threehook/go-merkle/merkle/algorithms"
 	"testing"
 )
 

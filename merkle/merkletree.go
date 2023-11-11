@@ -2,8 +2,8 @@ package merkle
 
 import (
 	"github.com/barweiss/go-tuple"
-	"github.com/threehook/go-merkle/algorithms"
-	"github.com/threehook/go-merkle/utils"
+	"github.com/threehook/go-merkle/merkle/algorithms"
+	utils2 "github.com/threehook/go-merkle/merkle/utils"
 	"sort"
 )
 
@@ -90,7 +90,7 @@ func (mt *MerkleTree[T]) uncommittedDiff() *PartialTree {
 
 	// Figure out what the tree height would be if we committed the changes
 	leavesInNewTree := mt.leavesLen() + uint(len(mt.uncommittedLeaves))
-	uncommittedTreeDepth := utils.TreeDepth(leavesInNewTree)
+	uncommittedTreeDepth := utils2.TreeDepth(leavesInNewTree)
 
 	if len(partialTreeTuples) > 0 && len(partialTreeTuples[0]) > 0 {
 		firstLayer := partialTreeTuples[0]
@@ -117,16 +117,16 @@ func (mt *MerkleTree[T]) helperNodeTuples(leafIndices []uint) [][]NodeTuple {
 
 	for _, treeLayer := range mt.layerTuples() {
 		helpersLayer := make([]NodeTuple, 0)
-		siblings := utils.SiblingIndices(currentLayerIndices)
+		siblings := utils2.SiblingIndices(currentLayerIndices)
 		// Filter all nodes that do not require an additional Hash to be calculated
-		helperIndices := utils.Difference(siblings, currentLayerIndices)
+		helperIndices := utils2.Difference(siblings, currentLayerIndices)
 
 		for _, idx := range helperIndices {
 			tuple := treeLayer[idx]
 			helpersLayer = append(helpersLayer, tuple)
 		}
 		helperNodes = append(helperNodes, helpersLayer)
-		currentLayerIndices = utils.ParentIndices(currentLayerIndices)
+		currentLayerIndices = utils2.ParentIndices(currentLayerIndices)
 	}
 	return helperNodes
 }

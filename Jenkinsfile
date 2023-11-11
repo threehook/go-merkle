@@ -1,16 +1,27 @@
 pipeline {
+    environment {
+      GO111MODULE = 'on'
+      registry = "gustavoapolinario/docker-test"
+      registryCredential = 'dockerhub'
+      dockerImage = ''
+    }
     agent any
     tools {
         go 'go-1.21'
     }
-    environment {
-        GO111MODULE = 'on'
-    }
     stages {
-        stage('Compile') {
+        stage('Building app') {
             steps {
                 sh 'go build'
             }
+        }
+        // don't forget to include a stage for unit testing here
+        stage('Building image') {
+          steps{
+            script {
+              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+          }
         }
     }
 }

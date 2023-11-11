@@ -2,7 +2,7 @@ package merkle
 
 import (
 	"errors"
-	"github.com/threehook/go-merkle/utils"
+	utils2 "github.com/threehook/go-merkle/merkle/utils"
 	"sort"
 )
 
@@ -39,7 +39,7 @@ func (pt *PartialTree) buildTree(partialLayers [][]NodeTuple, fullTreeDepth uint
 
 	// Reversing helper nodes, so we can remove one layer starting from 0 each iteration
 	var reversedLayers [][]NodeTuple
-	reversedLayers = utils.ReverseSlice(partialLayers)
+	reversedLayers = utils2.ReverseSlice(partialLayers)
 
 	// Iterating through fullTreeDepth instead of len(partialLayers) to address the case of applying changes to a tree
 	// when tree requires a resize. In that case len(partialLayer) would be lower than the resulting tree depth
@@ -59,7 +59,7 @@ func (pt *PartialTree) buildTree(partialLayers [][]NodeTuple, fullTreeDepth uint
 		// This empties `current` layer and prepares it to be reused for the next iteration
 		indices, hashes := Unzip[uint, []byte](currentLayer)
 		currentLayer = []NodeTuple{}
-		parentLayerIndicesIt := utils.ParentIndicesIt(indices)
+		parentLayerIndicesIt := utils2.ParentIndicesIt(indices)
 
 		err := parentLayerIndicesIt.TryForEach(func(idx uint) error {
 			j := int(idx)
