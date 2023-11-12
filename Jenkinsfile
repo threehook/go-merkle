@@ -22,7 +22,7 @@ pipeline {
                 script {
                     def dockerHome = tool 'docker'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
-                    sh 'docker exec -it -u root my-jenkins /bin/bash'
+                    sh 'docker exec -it -u root jenkins /bin/bash'
                     sh 'usermod -aG docker jenkins'
                 }
             }
