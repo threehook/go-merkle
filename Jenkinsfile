@@ -17,8 +17,8 @@ pipeline {
             }
         }
         // don't forget to include a stage for unit testing right here
-        stage('Initializing docker'){
-            def dockerHome = tool 'docker'
+        stage('Initializing docker') {
+            dockerHome = tool 'docker'
             env.PATH = "${dockerHome}/bin:${env.PATH}"
         }
         stage('Building image') {
