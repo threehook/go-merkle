@@ -1,7 +1,9 @@
 pipeline {
     agent any
     tools {
-        go 'go-1.21'
+        withEnv(['LANG=en_US.UTF-8', 'LANGUAGE=en_US.UTF-8', 'LC_ALL=en_US.UTF-8', LC_CTYPE=en_US.UTF-8']) {
+            go 'go-1.21'
+        }
     }
     environment {
       JAVA_OPTS = '-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8'
