@@ -17,15 +17,6 @@ pipeline {
             }
         }
         // don't forget to include a stage for unit testing right here
-        stage('Initializing docker') {
-            steps {
-                script {
-                    def dockerHome = tool 'docker'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
-                    sh 'docker run -d --name my-jenkins -v /var/jenkins_home:~/.jenkins -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 jenkins'
-                }
-            }
-        }
         stage('Building image') {
             steps {
                 script {
