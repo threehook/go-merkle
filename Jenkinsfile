@@ -22,8 +22,7 @@ pipeline {
                 script {
                     def dockerHome = tool 'docker'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
-                    sh 'docker exec -it -u root jenkins /bin/bash'
-                    sh 'usermod -aG docker jenkins'
+                    sh 'docker run -d --name my-jenkins -v /var/jenkins_home:~/.jenkins -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 jenkins'
                 }
             }
         }
