@@ -16,11 +16,11 @@ pipeline {
       dockerImage = ''
     }
     stages {
-        stage('Building app') {
-            steps {
-                sh 'go build'
-            }
-        }
+//        stage('Building app') {
+//            steps {
+//                sh 'go build'
+//            }
+//        }
         // don't forget to include a stage for unit testing right here
         stage('Building image') {
             steps {
