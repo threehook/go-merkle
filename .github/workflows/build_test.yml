@@ -25,9 +25,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+
     - name: Set up test
       uses: actions/setup-go@v4
       with:
         go-version: '1.21'
+
     - name: Test
       run: go test -v ./...
