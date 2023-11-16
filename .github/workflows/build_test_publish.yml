@@ -61,6 +61,6 @@ jobs:
         push: true
         tags: |
 #          ${{ github.actor }}/go-merkle:${{ steps.meta.outputs.tags }}
-#          ${{ github.actor }}/go-merkle:latest
+          ${{ github.actor }}/go-merkle:latest
 #        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
