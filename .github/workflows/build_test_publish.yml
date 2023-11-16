@@ -43,7 +43,7 @@ jobs:
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
       with:
         registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
+        username: ${{ github.repository_owner }}
         password: ${{ secrets.REGISTRY_TOKEN }}
     # This step uses [docker/metadata-action](https://github.com/docker/metadata-action#about) to extract tags and labels that will be applied to the specified image. The `id` "meta" allows the output of this step to be referenced in a subsequent step. The `images` value provides the base name for the tags and labels.
     - name: Extract metadata (tags, labels) for Docker
@@ -59,7 +59,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ github.actor }}/go-merkle:latest
+        tags: ghcr.io/${{ github.repository_owner }}/go-merkle:latest
 #          ${{ github.actor }}/go-merkle:${{ steps.meta.outputs.tags }}
 #          ${{ github.actor }}/go-merkle:latest
 #        tags: ${{ steps.meta.outputs.tags }}
