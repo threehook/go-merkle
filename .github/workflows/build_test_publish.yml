@@ -69,13 +69,14 @@ jobs:
     needs: [ build_test_publish ]
     runs-on: ubuntu-latest
     steps:
-#      - name: Package helm chart
       - name: Install helm
         id: install
         uses: azure/setup-helm@v3
         with:
 #          version: '<version>' # default is latest (stable)
           token: ${{ secrets.REGISTRY_TOKEN }} # only needed if version is 'latest'
+      - name: Checkout source code
+        uses: actions/checkout@v3
       - name: Package helm chart
         run: helm package ./chart
 
