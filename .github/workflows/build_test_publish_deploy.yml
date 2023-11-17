@@ -84,7 +84,8 @@ jobs:
 #        with:
 #          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
       - name: 'Deploy to k8s'
-        uses: 'deliverybot/helm@v1'
+#        uses: 'deliverybot/helm@v1'
+        uses: 'glopezep/helm@v1.7.1'
         with:
           release: 'go-merkle'
           namespace: 'cicd'
