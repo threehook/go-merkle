@@ -77,7 +77,7 @@ jobs:
 #          version: '<version>' # default is latest (stable)
           token: ${{ secrets.REGISTRY_TOKEN }} # only needed if version is 'latest'
       - name: Package helm chart
-        run: helm package .
+        run: helm package ./chart
 
 
 
