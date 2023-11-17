@@ -87,9 +87,9 @@ jobs:
 #        uses: 'deliverybot/helm@v1'
         uses: 'vimeda/helm@v1.7.0'
         with:
-          release: 'go-merkle'
+#          release: 'go-merkle'
           namespace: 'cicd'
-#          chart: 'go-merkle'
+          chart: 'go-merkle'
 #          version: '0.1.0'
           token: '${{ secrets.REGISTRY_TOKEN }}'
 #          values: |
