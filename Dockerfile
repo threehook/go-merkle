@@ -9,6 +9,6 @@ COPY . ./
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /app
 
-FROM alpine
+FROM ubuntu:22.04
 COPY --from=builder /app /usr/local/bin/go-merkle
 ENTRYPOINT ["/usr/local/bin/go-merkle"]
