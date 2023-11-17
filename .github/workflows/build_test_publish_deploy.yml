@@ -95,7 +95,7 @@ jobs:
 #          values: |
 #            name: foobar
         env:
-          KUBECONFIG_FILE: '${{ secrets.KUBERNETES_SECRET }}'
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG_FILE }}'
 
 
 
