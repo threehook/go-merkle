@@ -23,7 +23,7 @@ version: 0.1.0
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
 
-dependencies:
-  - name: k8tz
-    repository: https://k8tz.github.io/k8tz
-    version: 0.13.1
+#dependencies:
+#  - name: k8tz
+#    repository: https://k8tz.github.io/k8tz
+#    version: 0.13.1
