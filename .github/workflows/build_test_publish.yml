@@ -64,3 +64,48 @@ jobs:
 #          ${{ github.actor }}/go-merkle:latest
 #        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: [ build_test_publish ]
+    runs-on: ubuntu-latest
+    steps:
+#      - name: Package helm chart
+      - name: Install helm
+        id: install
+        uses: azure/setup-helm@v3
+        with:
+#          version: '<version>' # default is latest (stable)
+          token: ${{ secrets.REGISTRY_TOKEN }} # only needed if version is 'latest'
+      - name: Package helm chart
+        run: helm package .
+
+
+
+
+
+
+#  deploy:
+#    name: Deploy
+#    needs: [ build_test_publish ]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Set the Kubernetes context
+#        uses: azure/k8s-set-context@v2
+#        with:
+#          method: service-account
+#          k8s-url: https://kubernetes.docker.internal:6443
+#          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+#
+#      - name: Checkout source code
+#        uses: actions/checkout@v3
+#
+#      - name: Deploy to the Kubernetes cluster
+#        uses: azure/k8s-deploy@v1
+#        with:
+#          namespace: default
+#          manifests: |
+#            kubernetes/deployment.yaml
+#            kubernetes/ingress.yaml
+#            kubernetes/service.yaml
+#          images: |
+#            ${{ env.REGISTRY }}/${{ github.repository_owner }}/go-merkle:latest
