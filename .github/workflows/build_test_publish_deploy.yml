@@ -61,7 +61,7 @@ jobs:
 #        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-  deploy:
+  chart_publish_deploy:
     needs: [ build_test_publish ]
     runs-on: ubuntu-latest
     steps:
@@ -77,12 +77,17 @@ jobs:
         run: helm package ./chart
       - name: Login to registry
         run:  helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }}
-      - name: push chart to registry
+      - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
+      - name: Install chart on k8s
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
 
 
 
 
+#if: ${{ inputs.kubectl != '' }}
 
 #  deploy:
 #    name: Deploy
