@@ -79,11 +79,21 @@ jobs:
         run:  helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }}
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
-      - name: Install chart on k8s
-        uses: azure/k8s-set-context@v1
+#      - name: Install chart on k8s
+#        uses: azure/k8s-set-context@v3
+#        with:
+#          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
+      - name: 'Deploy to k8s'
+        uses: 'deliverybot/helm@v1'
         with:
-          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
-
+          release: 'go-merkle'
+          namespace: 'cicd'
+          chart: 'app'
+          token: '${{ secrets.REGISTRY_TOKEN }}'
+#          values: |
+#            name: foobar
+        env:
+          KUBECONFIG_FILE: '${{ secrets.KUBERNETES_SECRET }}'
 
 
 
