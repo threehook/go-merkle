@@ -90,8 +90,10 @@ jobs:
           release: 'go-merkle'
           namespace: 'cicd'
           chart: 'app'
+          token: '${{ github.token }}'
+          secrets: '${{ toJSON(secrets) }}'
           version: '0.1.0'
-          token: '${{ secrets.REGISTRY_TOKEN }}'
+#          token: '${{ secrets.REGISTRY_TOKEN }}'
 #          values: |
 #            name: foobar
         env:
