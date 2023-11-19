@@ -84,20 +84,25 @@ jobs:
 #        with:
 #          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
       - name: 'Deploy to k8s'
-#        uses: 'deliverybot/helm@v1'
-        uses: 'vimeda/helm@v1.7.0'
-        with:
-          release: 'go-merkle'
-          namespace: 'cicd'
-          chart: 'app'
-#          token: '${{ github.token }}'
-#          secrets: '${{ toJSON(secrets) }}'
-          version: '0.1.0'
-#          token: '${{ secrets.REGISTRY_TOKEN }}'
-#          values: |
-#            name: foobar
-        env:
-          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG_FILE }}'
+        run: |
+          helm upgrade --install --atomic --timeout 1m rest chart/ \
+            --kube-context docker-desktop --namespace cicd --create-namespace \
+            --set image.tag=0.1.0   
+
+##        uses: 'deliverybot/helm@v1'
+#        uses: 'vimeda/helm@v1.7.0'
+#        with:
+#          release: 'go-merkle'
+#          namespace: 'cicd'
+#          chart: 'app'
+##          token: '${{ github.token }}'
+##          secrets: '${{ toJSON(secrets) }}'
+#          version: '0.1.0'
+##          token: '${{ secrets.REGISTRY_TOKEN }}'
+##          values: |
+##            name: foobar
+#        env:
+#          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG_FILE }}'
 
 
 
