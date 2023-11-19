@@ -91,7 +91,7 @@ jobs:
           namespace: 'cicd'
           chart: 'app'
 #          token: '${{ github.token }}'
-          secrets: '${{ toJSON(secrets) }}'
+#          secrets: '${{ toJSON(secrets) }}'
           version: '0.1.0'
 #          token: '${{ secrets.REGISTRY_TOKEN }}'
 #          values: |
