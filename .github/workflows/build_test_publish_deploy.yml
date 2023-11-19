@@ -65,6 +65,11 @@ jobs:
     needs: [ build_test_publish ]
     runs-on: ubuntu-latest
     steps:
+      - name: Create kube config
+        run: |
+          mkdir -p $HOME/.kube/
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
       - name: Install helm
         id: install
         uses: azure/setup-helm@v3
