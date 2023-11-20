@@ -90,12 +90,14 @@ jobs:
 #          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
-#        with:
-#          version: 'v1.28.2' # default is latest stable
+        with:
+          version: 'v1.28.2' # default is latest stable
         id: install_kubectl
-      - name: Set env HELM_KUBETOKEN
-        run: echo "HELM_KUBETOKEN=$(echo $(kubectl create token deliverybot-sa -n cicd))" >> $GITHUB_ENV
+#      - name: Set env HELM_KUBETOKEN
+#        run: echo $(kubectl create token deliverybot-sa -n cicd) >> $GITHUB_ENV
       - name: 'Deploy to k8s'
+        env:
+          HELM_KUBETOKEN: $(kubectl create token deliverybot-sa -n cicd)
         run: |
 #          run: echo "HELM_KUBETOKEN=${{ kubectl create token deliverybot-sa -n cicd }}" >> $GITHUB_ENV
           helm upgrade --install --atomic --timeout 1m rest chart/ \
