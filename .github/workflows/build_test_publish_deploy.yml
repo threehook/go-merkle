@@ -65,12 +65,12 @@ jobs:
     needs: [ build_test_publish ]
     runs-on: ubuntu-latest
     steps:
-      - name: Create kube config
-        run: |
-          mkdir -p $HOME/.kube/
-          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
-          cat $HOME/.kube/config
+#      - name: Create kube config
+#        run: |
+#          mkdir -p $HOME/.kube/
+#          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+#          chmod 600 $HOME/.kube/config
+
       - name: Install helm
         id: install_helm
         uses: azure/setup-helm@v3
@@ -86,6 +86,11 @@ jobs:
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
 
+      - name: Create kube config
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
       - name: Set env HELM_KUBETOKEN
         run: |
           HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
