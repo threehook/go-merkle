@@ -92,7 +92,7 @@ jobs:
         uses: azure/setup-kubectl@v3
 #        with:
 #          version: 'v1.28.2' # default is latest stable
-        id: install
+#        id: install
       - name: 'Deploy to k8s'
         run: |
           echo "kubectl create token deliverybot-sa -n cicd" >> $HELM_KUBETOKEN
