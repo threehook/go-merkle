@@ -94,13 +94,13 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'v1.28.2' # default is latest stable
-      - name: 'Deploy to k8s'
-        env:
-          HELM_KUBETOKEN: $HELM_KUBETOKEN
-        run: |
-          helm upgrade --install --atomic --timeout 1m rest chart/ \
-            --kube-context docker-desktop --namespace cicd --create-namespace \
-            --set image.tag=0.1.0
+#      - name: 'Deploy to k8s'
+#        env:
+#          HELM_KUBETOKEN: $HELM_KUBETOKEN
+#        run: |
+#          helm upgrade --install --atomic --timeout 1m rest chart/ \
+#            --kube-context docker-desktop --namespace cicd --create-namespace \
+#            --set image.tag=0.1.0
 
 ##        uses: 'deliverybot/helm@v1'
 #        uses: 'vimeda/helm@v1.7.0'
