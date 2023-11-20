@@ -94,8 +94,8 @@ jobs:
         with:
           version: 'v1.28.2' # default is latest stable
       - name: 'Deploy to k8s'
-        env:
-          HELM_KUBETOKEN: $(kubectl create token deliverybot-sa -n cicd)
+#        env:
+#          HELM_KUBETOKEN: $(kubectl create token deliverybot-sa -n cicd)
         run: |
 #          run: echo "HELM_KUBETOKEN=${{ kubectl create token deliverybot-sa -n cicd }}" >> $GITHUB_ENV
           helm upgrade --install --atomic --timeout 1m rest chart/ \
