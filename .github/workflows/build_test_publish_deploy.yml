@@ -89,7 +89,7 @@ jobs:
 #        with:
 #          kubeconfig: ${{ secrets.KUBERNETES_SECRET }} # TODO: call this secret KUBECONFIG
       - name: Install kubectl
-        id: install_kubectl
+#        id: install_kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: 'v1.28.2' # default is latest stable
