@@ -95,7 +95,7 @@ jobs:
 #        id: install
       - name: 'Deploy to k8s'
         run: |
-          echo "kubectl create token deliverybot-sa -n cicd" >> $HELM_KUBETOKEN
+          run: echo "HELM_KUBETOKEN=${{ kubectl create token deliverybot-sa -n cicd }}" >> $GITHUB_ENV
           helm upgrade --install --atomic --timeout 1m rest chart/ \
             --kube-context docker-desktop --namespace cicd --create-namespace \
             --set image.tag=0.1.0   
