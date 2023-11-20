@@ -86,7 +86,9 @@ jobs:
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
 
       - name: Set env HELM_KUBETOKEN
-        run: HELM_KUBETOKEN=echo $(kubectl create token deliverybot-sa -n cicd)
+        run: |
+          HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
+          echo "Hello $HELM_KUBETOKEN"
       - name: Install kubectl
         id: install_kubectl
         uses: azure/setup-kubectl@v3
