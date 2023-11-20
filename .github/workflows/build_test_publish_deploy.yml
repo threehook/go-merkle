@@ -85,13 +85,15 @@ jobs:
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
 
+      - name: Set env HELM_KUBETOKEN
+        run: HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: 'v1.28.2' # default is latest stable
       - name: 'Deploy to k8s'
         env:
-          HELM_KUBETOKEN: $(kubectl create token deliverybot-sa -n cicd)
+          HELM_KUBETOKEN: $HELM_KUBETOKEN
         run: |
           helm upgrade --install --atomic --timeout 1m rest chart/ \
             --kube-context docker-desktop --namespace cicd --create-namespace \
