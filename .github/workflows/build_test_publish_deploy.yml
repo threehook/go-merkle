@@ -93,6 +93,9 @@ jobs:
 #        with:
 #          version: 'v1.28.2' # default is latest stable
 #        id: install
+
+      - name: Set env HELM_KUBETOKEN
+        run: echo "HELM_KUBETOKEN=$(echo $(kubectl create token deliverybot-sa -n cicd))" >> $GITHUB_ENV
       - name: 'Deploy to k8s'
         run: |
           run: echo "HELM_KUBETOKEN=${{ kubectl create token deliverybot-sa -n cicd }}" >> $GITHUB_ENV
