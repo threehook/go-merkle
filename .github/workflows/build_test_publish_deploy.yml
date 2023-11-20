@@ -86,6 +86,12 @@ jobs:
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
 
+      - name: Install kubectl
+        id: install_kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.2' # default is latest stable
+
       - name: Create kube config
         uses: azure/k8s-set-context@v3
         with:
@@ -95,11 +101,7 @@ jobs:
         run: |
           HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
           echo "Hello $HELM_KUBETOKEN"
-      - name: Install kubectl
-        id: install_kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.28.2' # default is latest stable
+
 #      - name: 'Deploy to k8s'
 #        env:
 #          HELM_KUBETOKEN: $HELM_KUBETOKEN
