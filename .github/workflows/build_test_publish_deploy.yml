@@ -70,6 +70,7 @@ jobs:
           mkdir -p $HOME/.kube/
           echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
+          echo "${{ secrets.KUBE_CONFIG }}"
       - name: Install helm
         id: install_helm
         uses: azure/setup-helm@v3
