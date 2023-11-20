@@ -71,7 +71,7 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
       - name: Install helm
-        id: install
+        id: install_helm
         uses: azure/setup-helm@v3
         with:
 #          version: '<version>' # default is latest (stable)
@@ -92,7 +92,7 @@ jobs:
         uses: azure/setup-kubectl@v3
 #        with:
 #          version: 'v1.28.2' # default is latest stable
-#        id: install
+        id: install_kubectl
       - name: Set env HELM_KUBETOKEN
         run: echo "HELM_KUBETOKEN=$(echo $(kubectl create token deliverybot-sa -n cicd))" >> $GITHUB_ENV
       - name: 'Deploy to k8s'
