@@ -97,8 +97,6 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-        env:
-          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
 #      - name: Set env HELM_KUBETOKEN
 #        run: |
 #          HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
@@ -106,7 +104,7 @@ jobs:
 
       - name: 'Deploy to k8s'
         env:
-          HELM_KUBETOKEN: $HELM_KUBETOKEN
+          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
         run: |
           helm upgrade --install --atomic --timeout 1m rest chart/ \
             --kube-context docker-desktop --namespace cicd --create-namespace \
