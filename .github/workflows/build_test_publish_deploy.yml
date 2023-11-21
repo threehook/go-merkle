@@ -82,7 +82,7 @@ jobs:
       - name: Package helm chart
         run: helm package ./chart
       - name: Login to registry
-        run:  helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }}
+        run: helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }}
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
 
@@ -97,18 +97,20 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-      - name: Set env HELM_KUBETOKEN
-        run: |
-          HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
-          echo "Hello $HELM_KUBETOKEN"
-
-#      - name: 'Deploy to k8s'
-#        env:
-#          HELM_KUBETOKEN: $HELM_KUBETOKEN
+        env:
+          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
+#      - name: Set env HELM_KUBETOKEN
 #        run: |
-#          helm upgrade --install --atomic --timeout 1m rest chart/ \
-#            --kube-context docker-desktop --namespace cicd --create-namespace \
-#            --set image.tag=0.1.0
+#          HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
+#          echo "Hello $HELM_KUBETOKEN"
+
+      - name: 'Deploy to k8s'
+        env:
+          HELM_KUBETOKEN: $HELM_KUBETOKEN
+        run: |
+          helm upgrade --install --atomic --timeout 1m rest chart/ \
+            --kube-context docker-desktop --namespace cicd --create-namespace \
+            --set image.tag=0.1.0
 
 ##        uses: 'deliverybot/helm@v1'
 #        uses: 'vimeda/helm@v1.7.0'
