@@ -106,7 +106,7 @@ jobs:
 #        env:
 #          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
         run: |
-          helm upgrade --install rest chart/ --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} \
+          helm upgrade --install rest chart/ \
             --kube-context docker-desktop --namespace cicd --create-namespace \
             --set image.tag=0.1.0
 
