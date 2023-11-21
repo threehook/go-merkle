@@ -103,12 +103,12 @@ jobs:
 #          echo "Hello $HELM_KUBETOKEN"
 
       - name: 'Deploy to k8s'
-        env:
-          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
+#        env:
+#          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
         run: |
           helm upgrade --install --atomic --timeout 1m rest chart/ \
             --kube-context docker-desktop --namespace cicd --create-namespace \
-            --set image.tag=0.1.0
+            --set image.tag=0.1.0 --kube-token ${{ secrets.KUBE_CONFIG }}
 
 ##        uses: 'deliverybot/helm@v1'
 #        uses: 'vimeda/helm@v1.7.0'
