@@ -106,7 +106,7 @@ jobs:
 #        env:
 #          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
         run: |
-          helm upgrade --install threehook/go-merkle chart/ --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} \
+          helm upgrade --install go-merkle chart/ --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} \
             --kube-context docker-desktop --namespace cicd --create-namespace \
             --insecure-skip-tls-verify --set image.tag=0.1.0
 
