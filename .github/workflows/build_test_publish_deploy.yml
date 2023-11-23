@@ -108,7 +108,7 @@ jobs:
         run: |
           helm upgrade --install rest chart/ --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} \
             --kube-context docker-desktop --namespace cicd --create-namespace \
-            --set image.tag=0.1.0
+            --insecure-skip-tls-verify --set image.tag=0.1.0
 
 ##        uses: 'deliverybot/helm@v1'
 #        uses: 'vimeda/helm@v1.7.0'
