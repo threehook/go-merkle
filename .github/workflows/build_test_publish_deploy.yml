@@ -102,6 +102,10 @@ jobs:
 #          HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
 #          echo "Hello $HELM_KUBETOKEN"
 
+      - name: Helm login to container registry
+        run: |
+          helm registry login ${{ env.REGISTRY }} -u ${{ github.repository_owner }} -p ${{ secrets.REGISTRY_TOKEN }} 
+
       - name: 'Deploy to k8s'
 #        env:
 #          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
