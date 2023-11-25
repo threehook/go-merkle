@@ -107,8 +107,8 @@ jobs:
       - name: 'Deploy to k8s'
         run: |
           helm upgrade --install go-merkle oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts/go-merkle \
-            --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} --kube-context docker-desktop --namespace cicd --create-namespace \
-            --insecure-skip-tls-verify --set image.tag=0.1.0
+          --version 0.1.0 --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} --kube-context docker-desktop \
+          --namespace cicd --create-namespace --insecure-skip-tls-verify --set image.tag=0.1.0
 
 ##        uses: 'deliverybot/helm@v1'
 #        uses: 'vimeda/helm@v1.7.0'
