@@ -106,7 +106,7 @@ jobs:
 
       - name: 'Deploy to k8s'
         run: |
-          helm upgrade --install go-merkle oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts \
+          helm upgrade --install go-merkle oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts/${{ github.repository }} \
             --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} --kube-context docker-desktop \
             --namespace cicd --create-namespace --insecure-skip-tls-verify --set image.tag=0.1.0
 
