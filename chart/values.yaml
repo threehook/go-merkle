@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: threehook/go-merkle
+  repository: threehook/charts/go-merkle
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+#  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
