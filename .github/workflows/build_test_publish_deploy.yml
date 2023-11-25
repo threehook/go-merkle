@@ -90,7 +90,7 @@ jobs:
         run: helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} -u ${{ github.repository_owner }} -p ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Add our repo
-        run: helm repo add --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }} threehook oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts
+        run: helm repo add --username ${{ github.repository_owner }} --password ${{ secrets.REGISTRY_TOKEN }} threehook https://${{ env.REGISTRY }}/v2/${{ github.repository_owner }}/charts
 
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts
