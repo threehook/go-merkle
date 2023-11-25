@@ -16,7 +16,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build_test_publish:
+  build:
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
@@ -61,8 +61,8 @@ jobs:
 #        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-  chart_publish_deploy:
-    needs: [ build_test_publish ]
+  deploy:
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
 #      - name: Create kube config
@@ -77,12 +77,16 @@ jobs:
         with:
 #          version: '<version>' # default is latest (stable)
           token: ${{ secrets.REGISTRY_TOKEN }} # only needed if version is 'latest'
+
       - name: Checkout source code
         uses: actions/checkout@v3
+
       - name: Package helm chart
         run: helm package ./chart
+
       - name: Login to registry
         run: helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} -u ${{ github.repository_owner }} -p ${{ secrets.REGISTRY_TOKEN }}
+
       - name: Push chart to registry
         run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}
 
@@ -97,18 +101,8 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-#      - name: Set env HELM_KUBETOKEN
-#        run: |
-#          HELM_KUBETOKEN=$(kubectl create token deliverybot-sa -n cicd)
-#          echo "Hello $HELM_KUBETOKEN"
-
-      - name: Helm login to container registry
-        run: |
-          helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} -u ${{ github.repository_owner }} -p ${{ secrets.REGISTRY_TOKEN }} 
 
       - name: 'Deploy to k8s'
-#        env:
-#          HELM_KUBETOKEN: '${{ secrets.DELIVERYBOT_TOKEN }}'
         run: |
           helm upgrade --install go-merkle chart/ --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} \
             --kube-context docker-desktop --namespace cicd --create-namespace \
