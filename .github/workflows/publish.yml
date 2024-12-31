@@ -49,4 +49,4 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/go-merkle:latest
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/go-merkle:0.1.0
-            labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}
