@@ -1,0 +1,29 @@
+name: Merge to main
+
+on:
+  pull_request_review:
+    branches: [main]
+    types: [submitted]
+
+jobs:
+  auto-merge:
+    if: github.repository == 'threehook/go-merkle' && github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        run: |
+          PR_NUMBER=$(jq --raw-output '.pull_request.number' <<< "${{ toJson(github.event) }}")
+          BRANCH_NAME=$(jq --raw-output '.pull_request.head.ref' <<< "${{ toJson(github.event) }}")
+          echo "Attempting to merge PR #${PR_NUMBER} from branch ${BRANCH_NAME}"
+          
+          # Perform the merge
+          gh pr merge $PR_NUMBER --repo "${{ github.repository }}" --merge

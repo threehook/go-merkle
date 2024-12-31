@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [Terraform Apply]
+    branches: [develop, main]
+    types: [completed]
+
+# Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  deploy:
+    if: github.repository == 'threehook/go-merkle' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install helm
+        id: install_helm
+        uses: azure/setup-helm@v3
+        with:
+          # version: '<version>' # default is latest (stable)
+          token: ${{ secrets.REGISTRY_TOKEN }} # only needed if version is 'latest'
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Package helm chart
+        run: helm package ./chart
+
+      - name: Login to registry
+        run: helm registry login ${{ env.REGISTRY }}/${{ github.repository_owner }} -u ${{ github.repository_owner }} -p ${{ secrets.REGISTRY_TOKEN }}
+
+      - name: Push chart to registry
+        run: helm push ./go-merkle-0.1.0.tgz oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts
+
+      - name: Install kubectl
+        id: install_kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v4.0.0' # default is latest stable
+
+      - name: Create kube config
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Deploy to k8s
+        run: |
+          helm upgrade --install go-merkle oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/charts/go-merkle \
+          --version 0.1.0 --kube-token ${{ secrets.DELIVERYBOT_TOKEN }} --kube-context docker-desktop \
+          --namespace cicd --create-namespace --insecure-skip-tls-verify
