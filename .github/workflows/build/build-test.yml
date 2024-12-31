@@ -1,12 +1,8 @@
 name: Build and Test
 
 on:
-  pull_request:
+  push:
     branches: [develop, main]
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-test:
