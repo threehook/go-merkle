@@ -1,11 +1,10 @@
 name: Publish
 
-on:
-  workflow_run:
-    workflows: ['Build and test develop']
-    branches: [develop]
-    types: [completed]
 
+on:
+  pull_request_review:
+    branches: [develop]
+    types: [submitted]
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
@@ -15,7 +14,7 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.repository == 'threehook/go-merkle' && github.event.workflow_run.conclusion == 'success'
+    if: github.repository == 'threehook/go-merkle' && github.event.review.state == 'approved'
 
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
