@@ -5,8 +5,9 @@ name: 'Build and test develop'
 # E.g. when this 'Build and test develop' action is completed, the 'Publish' action is triggered.
 
 on:
-  push:
+  pull_request:
     branches: [develop]
+    types: [opened, reopened]
 
 jobs:
   build-test:
