@@ -1,7 +1,7 @@
 name: Build and test develop
 
 # This GitHub Action is the initiator of a complete merge to develop.
-# In this particlar action the app is build and tested, but continues with actions that make use of trigering events.concurrency.
+# In this particular action the app is build and tested, but continues with actions that make use of triggering.
 # E.g. when this 'Build and test develop' action is completed, the 'Publish' action is triggered.
 
 on:
