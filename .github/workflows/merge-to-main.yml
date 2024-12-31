@@ -1,0 +1,27 @@
+name: Build and test main
+
+# This GitHub Action is the initiator of a complete merge to main.
+# In this particlar action the app is build and tested, but continues with actions that make use of trigering events.concurrency.
+# E.g. when this 'Build and test develop' action is completed, the 'Terraform Plan' action is triggered.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
