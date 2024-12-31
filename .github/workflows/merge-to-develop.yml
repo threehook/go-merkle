@@ -1,4 +1,4 @@
-name: Build and test develop
+name: 'Build and test develop'
 
 # This GitHub Action is the initiator of a complete merge to develop.
 # In this particular action the app is build and tested, but continues with actions that make use of triggering.
